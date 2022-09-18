@@ -1,0 +1,98 @@
+<div class="row">
+    <div class="col-xs-12">
+        <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-xs-12">
+                    <button class="btn btn-success p-4" type="submit" [disabled]="!recipeForm.valid">
+                     {{isEditMode? 'Update' : 'Add'}}
+                    </button>
+                    <button class="btn btn-cancel" type="button" (click)="onReset()">Cancel</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" class="form-control" formControlName="name">
+                        <span *ngIf="!recipeForm.get('name').valid && recipeForm.get('name').touched">
+                            Please enter a name
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="imagePath">Image Url</label>
+                        <input type="text" id="imagePath" class="form-control" formControlName="imagePath">
+                        <span *ngIf="!recipeForm.get('imagePath').valid && recipeForm.get('imagePath').touched">
+                            Please enter a image url
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <img [src]="recipeForm.get('imagePath')?.value" alt="dish" class="img-responsive">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea type="text" id="description" formControlName="description" class="form-control" rows="6">
+                        </textarea>
+                        <span *ngIf="!recipeForm.get('description').valid && recipeForm.get('description').touched">
+                            Please enter a description
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12" formArrayName="ingredients">
+                    <div class="row" *ngFor="let ingredient of controls; let i = index;"
+                        [formGroup]="ingredient">
+                        <div class="col-xs-6">
+                            <input type="text"
+                                id="ingredient-name"
+                                placeholder="ingredient name"
+                                class="form-control"
+                                formControlName="name">  
+                            <span *ngIf="!ingredient.get('name').valid && ingredient.get('name').touched">
+                                Please enter a name
+                            </span>                                               
+                        </div>
+                        <div class="col-xs-2">
+                            <input type="number"
+                                id="ingredient-amount"
+                                class="form-control"
+                                formControlName="amount">
+                            <span *ngIf="!ingredient.get('amount').valid && ingredient.get('amount').touched">
+                                Please enter an amount
+                            </span>                                                
+                        </div>
+                        <div class="col-xs-2">
+                            <select type="text" 
+                                id="ingredient-units"
+                                class="form-control"
+                                formControlName="unit">
+                                <option [value]="measurementUnit" *ngFor="let measurementUnit of measurementUnits">
+                                    {{measurementUnit}}
+                                </option>
+                            </select>                            
+                        </div>                        
+                        <div class="col-xs-2">
+                            <button type="button" class="btn btn-danger" (click)="onRemoveIngredient(i)">X</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <button type="button" class="btn btn-success" (click)="onAddIngredient()">Add Ingredient</button>
+                            <button type="button" class="btn btn-success" (click)="onClearIngredients()">Clear Ingredients</button>
+                        </div>
+                    </div>
+                </div>
+            </div>   
+        </form>
+    </div>
+</div>

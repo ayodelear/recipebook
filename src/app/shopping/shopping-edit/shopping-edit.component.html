@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="col-xs-12">
+        <form #shoppingForm="ngForm" (ngSubmit)="onAddOrUpdate()">
+            <div class="row">
+                <div class="col-sm-5 form-group">
+                    <label for="name">Name</label>
+                    <input type="text"
+                     id="name"
+                     class="form-control"
+                     name="name"
+                     ngModel
+                     #nameInput="ngModel"
+                     required>
+                     <span *ngIf="!nameInput.valid && nameInput.touched">Please enter an ingredient name</span>
+                </div>
+                <div class="col-sm-2">
+                    <label for="amount">Amount</label>
+                    <input type="number"
+                     id="amount"
+                     name="amount"
+                     class="form-control"
+                     ngModel
+                     #amountInput="ngModel"
+                     required
+                     pattern="^[1-9]+[0-9]*$">
+                     <span *ngIf="!amountInput.valid && amountInput.touched">Please enter an amount</span>
+                </div>                 
+                <div class="col-sm-2">
+                    <label for="units">Units</label>                    
+                    <select class="form-control" name="units" id="units" [ngModel]="defaultUnit" #unitsInput="ngModel" >
+                        <option *ngFor="let unit of measurementUnits" [value]="unit">{{unit}}</option>
+                    </select>                    
+                </div>                
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <button class="mr-5 btn btn-success" type="submit" [disabled]="!shoppingForm.valid">{{selectedIndex > -1 ? "Edit": "Add"}}</button>
+                    <button class="btn btn-danger mr-5" [disabled]="selectedIndex <= -1" (click)="onDelete()" type="button">Delete</button>
+                    <button class="btn btn-primary mr-5" type="button" (click)="reset()">Clear</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
