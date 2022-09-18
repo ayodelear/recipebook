@@ -31,7 +31,7 @@ export class RecipesService{
             new Ingredient('Oil', 3, Appsettings.Measurements.Litres),
             new Ingredient('Chicken', 2, Appsettings.Measurements.Kilograms),
           ])
-    ]*/
+    ];*/
     
     private recipes: Recipe[] = [];
     

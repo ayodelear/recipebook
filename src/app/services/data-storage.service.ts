@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { map, tap } from "rxjs/operators";
+import { environment } from "src/environments/environment";
 import { Recipe } from "../recipes/recipe.model";
 import { Ingredient } from "../shared/ingredient.model";
 import { RecipesService } from "./recipes.service";
@@ -8,7 +9,6 @@ import { ShoppingListService } from "./shopping-list.service";
 
 @Injectable({'providedIn':'root'})
 export class DataStorageService{
-    private apiEndpoint = 'https://recipe-book-9e5da-default-rtdb.europe-west1.firebasedatabase.app/';
     private recipesPath = 'recipes.json'
     private ingredientsPath = 'ingredients.json';
 
@@ -18,7 +18,7 @@ export class DataStorageService{
 
     storeRecipes(){
         const recipes = this.recipesService.getRecipes();
-        this.httpClient.put(`${this.apiEndpoint}${this.recipesPath}`, recipes)
+        this.httpClient.put(`${environment.apiEndpoint}${this.recipesPath}`, recipes)
             .subscribe({
                 next: (response) => {
                     console.log(response);
@@ -35,7 +35,7 @@ export class DataStorageService{
     storeIngredients(){
         const ingredients = this.shoppingListService.getIngredients();
         this.httpClient
-            .put(`${this.apiEndpoint}${this.ingredientsPath}`, ingredients)
+            .put(`${environment.apiEndpoint}${this.ingredientsPath}`, ingredients)
             .subscribe({
                 next: (response) => {console.log(response)},
                 error: (error) => {console.error(error)},
@@ -44,7 +44,7 @@ export class DataStorageService{
     }    
 
     getRecipes(){
-        return this.httpClient.get<Recipe[]>(`${this.apiEndpoint}${this.recipesPath}`)
+        return this.httpClient.get<Recipe[]>(`${environment.apiEndpoint}${this.recipesPath}`)
             .pipe(
                 map(recipes => {
                     return recipes.map(recipe => {
@@ -57,7 +57,7 @@ export class DataStorageService{
     }
 
     getIngredients(){
-        return this.httpClient.get<Ingredient[]>(`${this.apiEndpoint}${this.ingredientsPath}`)
+        return this.httpClient.get<Ingredient[]>(`${environment.apiEndpoint}${this.ingredientsPath}`)
             .pipe(
                 map(ingredients => {
                     return ingredients.map(ingredient => {
